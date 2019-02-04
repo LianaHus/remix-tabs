@@ -1,5 +1,5 @@
 {
-  "name": "ts-tabs",
+  "name": "remix-tabs",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -28,4 +28,4 @@
     "webpack": "webpack --config webpack.conf.js",
     "start": "npm run-script webpack && npm run-script serve"
   }
-}
+}	
