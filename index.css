@@ -1,0 +1,11 @@
+.body {
+  background:#dee1e6;
+  margin: 0;
+}
+.div {
+  height: 100px;
+  width: 100px;
+  margin: 8;
+  background: #ffeaaf;
+  display: inline-block
+}

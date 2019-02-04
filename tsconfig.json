@@ -1,0 +1,18 @@
+
+{
+  "include": ["src", "webpack.conf.js"],
+  "compilerOptions": {
+    "outDir": "dist",
+   // "strict": true,
+    "target": "es6",
+    "module": "commonjs",
+    "sourceMap": true,
+    "watch": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "es2015",
+      "es6",
+      "dom"
+    ]
+  }
+}

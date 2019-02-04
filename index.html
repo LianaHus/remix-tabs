@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="index.css" />
+
+  <!-- Load polyfills ------------------------------------------>
+  <script 
+    src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"
+    defer>
+  </script> 
+  <!-- Load components via WebComponents.waitFor -->
+  <script type="module">
+    window.WebComponents = window.WebComponents || { 
+      waitFor(cb){ addEventListener('WebComponentsReady', cb) }
+    } 
+    WebComponents.waitFor(async () => { 
+      //import('./dist/index.js');
+      import('./dist/bundle.js');
+    });
+  </script>
+  <!------------------------------------------------------------->
+
+  <!-- Load polyfills -->
+  <script src="./node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+  <script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+  <!-- Load custom elements -->
+ 
+  <!-- If customElements is not available -->
+  <script>
+    if (!window.customElements) {
+      console.error('Custom Element is not available on this browser')
+    }
+  </script>
+
+</head>
+
+<body>
+    <remix-tab>
+    </remix-tab>
+    <remix-tab>
+    </remix-tab>
+    <div>
+      <label>kuku</label>
+      <remix-tabs>
+        <remix-tab>
+        </remix-tab>
+
+        <remix-tab>
+        </remix-tab>
+
+        <remix-tab>
+        </remix-tab>
+      </remix-tabs>
+    </div>
+  
+</body>
+</html>
