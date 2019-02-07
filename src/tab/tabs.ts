@@ -1,5 +1,6 @@
 import { customElement, LitElement, property, TemplateResult, html, css } from "lit-element";
-import { Tab, defaultTab } from './model';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Tab } from './model';
 
 @customElement('remix-tabs')
 export class RemixTabs extends LitElement {
@@ -21,7 +22,10 @@ export class RemixTabs extends LitElement {
     }`,
     css`button:hover {
       box-shadow: 0 0 3px rgb(50, 50, 50);
-    }`
+    }`,
+    css`fa-icon {
+      height: 50%;
+    }`,
   ];
 
   @property({ type: Array, reflect: true })
@@ -69,10 +73,16 @@ export class RemixTabs extends LitElement {
    * It will be executed whenever a property on our component changes.
    */
   render(): TemplateResult {
+    console.log(JSON.stringify(faPlus));
     const remixTabs = this.tabs.map(tab => {
       return html`<remix-tab tab='${JSON.stringify(tab)}' @tabClosed=${e => this.removeTab(e)}></remix-tab>`;
     });
-    const addTab = this.canAdd ? html`<button @click="${this.addTab}">+</button>` : '';
+    const addTab = this.canAdd
+      ? html`
+      <button @click="${this.addTab}">
+        <fa-icon def='${JSON.stringify(faPlus)}'></fa-icon>
+      </button>`
+      : '';
     /**
      * `render` must return a lit-html `TemplateResult`.
      *

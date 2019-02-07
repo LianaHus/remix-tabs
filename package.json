@@ -18,8 +18,10 @@
     "webpack-server": "^0.1.2"
   },
   "dependencies": {
-    "events": "latest",
+    "@fortawesome/fontawesome-svg-core": "^1.2.14",
+    "@fortawesome/free-solid-svg-icons": "^5.7.1",
     "@webcomponents/webcomponentsjs": "^2.2.4",
+    "events": "latest",
     "lit-element": "^2.0.0-rc.5",
     "remix-store": "0.0.1-alpha.0"
   },

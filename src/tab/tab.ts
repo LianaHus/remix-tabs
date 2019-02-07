@@ -1,4 +1,5 @@
 import { customElement, LitElement, property, TemplateResult, html, css } from "lit-element";
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Tab } from './model';
 
 @customElement('remix-tab')
@@ -21,7 +22,8 @@ export class RemixTab extends LitElement {
       font-family: Arial;
       font-size: 14px;
     }`,
-    css`.close {
+    css`fa-icon {
+      height: 14px;
       padding-left: 5px;
       cursor: pointer;
     }`,
@@ -57,7 +59,7 @@ export class RemixTab extends LitElement {
       <img src="${this.tab.icon}" />
       <span>${this.tab.title}</span>
     </div>
-    <span class="close" @click="${this.closeTab}">X</span>
+    <fa-icon def="${JSON.stringify(faTimes)}" @click="${this.closeTab}"></fa-icon>
   `;
   }
 }
