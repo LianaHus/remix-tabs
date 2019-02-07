@@ -43,10 +43,22 @@ export class RemixTabs extends LitElement {
     // send message to the parent to remove one tab and update the property
   }
 
+  /**
+   * Implement `render` to define a template for your element.
+   *
+   * `render` should be provided for any element that uses LitElement as a base class.
+   * It will be executed whenever a property on our component changes.
+   */
   render(): TemplateResult {
     const remixTabs = this.tabs.map(tab => {
-      return html`<remix-tab tab='${JSON.stringify(tab)}' @tabClosed=${e => this.removeTab(e)}></remix-tab`;
+      return html`<remix-tab tab='${JSON.stringify(tab)}' @tabClosed=${e => this.removeTab(e)}></remix-tab>`;
     });
+    /**
+     * `render` must return a lit-html `TemplateResult`.
+     *
+     * To create a `TemplateResult`, tag a JavaScript template literal
+     * with the `html` helper function:
+     */
     return html`
       ${remixTabs}
       <button @click="${this.addTab}">+</button>
