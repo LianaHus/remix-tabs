@@ -8,6 +8,7 @@
   "devDependencies": {
     "@types/events": "^3.0.0",
     "@webcomponents/webcomponentsjs": "^2.2.4",
+    "acorn": "^6.0.7",
     "ts-loader": "^5.3.3",
     "typescript": "^3.2.4",
     "webpack": "^4.29.0",
