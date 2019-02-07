@@ -8,13 +8,13 @@
   "devDependencies": {
     "@types/events": "^3.0.0",
     "@webcomponents/webcomponentsjs": "^2.2.4",
-    "http-server": "^0.11.1",
-    "polyserve": "^0.27.15",
+    "acorn": "^6.0.7",
     "ts-loader": "^5.3.3",
     "typescript": "^3.2.4",
     "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1",
-    "webpack-dev-server": "^3.1.11",
+    "webpack-dev-server": "^3.1.14",
+    "webpack-merge": "4.2.1",
     "webpack-server": "^0.1.2"
   },
   "dependencies": {
@@ -24,8 +24,7 @@
     "remix-store": "0.0.1-alpha.0"
   },
   "scripts": {
-    "serve": "polyserve",
-    "webpack": "webpack --config webpack.conf.js",
-    "start": "npm run-script webpack && npm run-script serve"
+    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
   }
-}	
+}
