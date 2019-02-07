@@ -7,27 +7,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" media="screen" href="index.css" />
 
-  <!-- Load polyfills ------------------------------------------>
+  <!-- Load polyfills ----------------------------------------
   <script 
     src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"
     defer>
   </script> 
-  <!-- Load components via WebComponents.waitFor -->
-  <script type="module">
-    window.WebComponents = window.WebComponents || { 
-      waitFor(cb){ addEventListener('WebComponentsReady', cb) }
-    } 
-    WebComponents.waitFor(async () => { 
-      //import('./dist/index.js');
-      import('./dist/bundle.js');
-    });
-  </script>
-  <!------------------------------------------------------------->
+  -->
 
-  <!-- Load polyfills -->
+  <!-- Load polyfills
   <script src="./node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
   <script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-  <!-- Load custom elements -->
+   -->
  
   <!-- If customElements is not available -->
   <script>
@@ -36,26 +26,10 @@
     }
   </script>
 
+  <script src="bundle.js"></script>
 </head>
 
 <body>
-    <remix-tab>
-    </remix-tab>
-    <remix-tab>
-    </remix-tab>
-    <div>
-      <label>kuku</label>
-      <remix-tabs>
-        <remix-tab>
-        </remix-tab>
-
-        <remix-tab>
-        </remix-tab>
-
-        <remix-tab>
-        </remix-tab>
-      </remix-tabs>
-    </div>
-  
+  <remix-tabs tabs='[{"id": "0", "title": "Hello World", "tooltip": "Welcome"}]'></remix-tabs>
 </body>
 </html>
