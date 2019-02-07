@@ -7,8 +7,6 @@ import {
   TemplateResult,
 } from 'lit-element';
 
-import { EntityStore } from 'remix-store';
-
 interface Tab {
   id: string; // should be unique
   title: string;
@@ -16,13 +14,13 @@ interface Tab {
   tooltip: string;
 }
 
-function defaultTab(): Tab {
+function defaultTab(index?: number): Tab {
   return {
-    id: "Invalid",
+    id: index ? index.toString() : "Invalid",
     title: 'New Tab',
     icon: '',
     tooltip: 'A tab'
-    }
+  }
 }
 
 /**
@@ -35,8 +33,8 @@ function defaultTab(): Tab {
 @customElement('remix-tab')
 export class RemixTab extends LitElement {
   
-  @property()
-  public tab: Tab = defaultTab();
+  @property({ type: Object })
+  public tab: Tab;
   
   constructor() {
     super();
@@ -106,8 +104,8 @@ export class RemixTab extends LitElement {
 
     <div class='tab' title="${this.tab.tooltip}" >
       <img src="${this.tab.icon}" />
-      <label>${this.tab.title}</label>
-      <span class='close' @click="${() => this.closeTab()}">x</span>
+      <span>${this.tab.title}</span>
+      <span class='close' @click="${this.closeTab}">x</span>
     </div>
   `;
   }
@@ -123,98 +121,32 @@ export class RemixTab extends LitElement {
 */
 @customElement('remix-tabs')
 export class RemixTabs extends LitElement {
-  private store = new EntityStore<Tab>(
-    'tab',
-    {
-      ids: [],
-      actives: [],
-      entities: {}
-    },
-    'id'
-  );
 
-  public selected = 0;
+  @property({ type: Array, reflect: true })
+  public tabs: Partial<Tab>[] = [];
 
-  @property()
-  public tabs: Tab[] = [];
-
-  constructor() {
-    super();    
-   
-    var aTab: Tab = defaultTab();
-   // aTab.id = "Tab id"
-   // aTab.title = "First Tab";
-   // aTab.tooltip = "First tooltip";
-    this.addTab(aTab);
-   /* aTab.id = "First Tab id";
-    aTab.title = "First tab title";
-    aTab.tooltip = "This is my tooltip";
-    this.addTab(aTab);*/
+  /** Add a tab locally */
+  public addTab() {
+    const tab = defaultTab(this.tabs.length);
+    this.tabs = [ ...this.tabs, tab ];
   }
 
-  // Handels removeTab event
-  public removeTab({detail}: CustomEvent) {
-    this.store.remove(detail); // detail is id here
+  public removeTab({ detail: id }: CustomEvent) {
+    const index = this.tabs.indexOf(id);
+    this.tabs = [...this.tabs.slice(0, index), ...this.tabs.slice(index, this.tabs.length - 1)];
+    // send message to the parent to remove one tab and update the property
   }
 
-  // Add tab
-  public addTab(tab: Tab) {
-    if (this.store.hasEntity(tab.id)) {
-      tab.id = tab.id.concat("..." + tab.tooltip) // add some logic here to concat from first different symbol to the end
-    }
-    this.store.add(tab);
-    this.show(tab.id);
-  }
-
-  // Show existed tab as an active one
-  public show(id: string) {
-    if (this.store.ids.indexOf(id) !== -1) {
-      this.store.deactivate(this.store.actives);
-      this.store.activate(id);
-    }
-  }
-
-  /**
-   * Implement `render` to define a template for your element.
-   *
-   * `render` should be provided for any element that uses LitElement as a base class.
-   * It will be executed whenever a property on our component changes.
-   */
-  render (): TemplateResult {
-    /**
-     * `render` must return a lit-html `TemplateResult`.
-     *
-     * To create a `TemplateResult`, tag a JavaScript template literal
-     * with the `html` helper function:
-     */
-    var htm =  html`
-    <style>
-    .tab-container {
-      background: white;
-      margin: 0;
-      padding: 0;
-      max-height: 30px;
-      left: 0;
-    }    
-    </style>
-
+  render(): TemplateResult {
+    const remixTabs = this.tabs.map(tab => {
+      return html`<remix-tab tab='${JSON.stringify(tab)}' @tabClosed=${e => this.removeTab(e)}></remix-tab`;
+    });
+    return html`
     <div class='tab-container'>
-      <label>${this.store.getAll().length}</label>
-
-      ${this.store.getAll().map(tab => html`
-        <remix-tab @tabClosed=${(e: CustomEvent) => this.removeTab(e)}></remix-tab>
-      `)}
+      <label>${this.tabs.length}</label>
+      ${remixTabs}
+      <button @click="${this.addTab}">+</button>
     </div>
     `;
-    console.warn('Custom Element has the following html ' + htm.strings);
-    return htm;
   }
-
-  /*
-
-      ${this.store.getAll().map(tab => html`
-        <remix-tab tab='${tab}' @tabClosed=${(e: CustomEvent) => this.removeTab(e)}></remix-tab>
-      `)}
-
-  */
 }
