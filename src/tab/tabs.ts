@@ -30,9 +30,28 @@ export class RemixTabs extends LitElement {
   @property({ type: Array, reflect: true })
   public activated: string;
 
+  @property({ type: String })
+  public defaultTitle: string = 'New Tab';
+
+  @property({ type: String })
+  public defaultIcon: string = '';
+
+  @property({ type: Boolean })
+  public canAdd = true;
+
+  private defaultTab() {
+    return {
+      id: this.tabs.length.toString(),
+      title: this.defaultTitle,
+      icon: this.defaultIcon,
+      tooltip: this.defaultTitle
+    }
+  }
+
+
   /** Add a tab to the list */
   public addTab() {
-    const tab = defaultTab(this.tabs.length);
+    const tab = this.defaultTab();
     this.tabs = [ ...this.tabs, tab ];
   }
 
@@ -53,6 +72,7 @@ export class RemixTabs extends LitElement {
     const remixTabs = this.tabs.map(tab => {
       return html`<remix-tab tab='${JSON.stringify(tab)}' @tabClosed=${e => this.removeTab(e)}></remix-tab>`;
     });
+    const addTab = this.canAdd ? html`<button @click="${this.addTab}">+</button>` : '';
     /**
      * `render` must return a lit-html `TemplateResult`.
      *
@@ -61,7 +81,7 @@ export class RemixTabs extends LitElement {
      */
     return html`
       ${remixTabs}
-      <button @click="${this.addTab}">+</button>
+      ${addTab}
     `;
   }
 }
