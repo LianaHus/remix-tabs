@@ -1,27 +1,24 @@
 import { customElement, LitElement, property, TemplateResult, html, css } from "lit-element";
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Tab } from './model';
+import { bootstrap, theme } from '../styles';
 
 @customElement('remix-tabs')
 export class RemixTabs extends LitElement {
 
   static styles = [
-    css`:host {
+    css`${bootstrap}`,
+    css`${theme}`,
+    css`header {
       display: flex;
       flex-direction: row;
       align-items: center;
     }`,
-    css`button {
+    css`.icon {
       margin-left: 10px;
       height: 25px;
       width: 25px;
-      border-radius: 50%;
-      border: none;
       cursor: pointer;
-      box-shadow: 0 0 2px rgb(50, 50, 50);
-    }`,
-    css`button:hover {
-      box-shadow: 0 0 3px rgb(50, 50, 50);
     }`,
     css`fa-icon {
       height: 50%;
@@ -73,15 +70,14 @@ export class RemixTabs extends LitElement {
    * It will be executed whenever a property on our component changes.
    */
   render(): TemplateResult {
-    console.log(JSON.stringify(faPlus));
     const remixTabs = this.tabs.map(tab => {
-      return html`<remix-tab tab='${JSON.stringify(tab)}' @tabClosed=${e => this.removeTab(e)}></remix-tab>`;
+      return html`<remix-tab class="nav-link" tab='${JSON.stringify(tab)}' @tabClosed=${this.removeTab}></remix-tab>`;
     });
     const addTab = this.canAdd
       ? html`
-      <button @click="${this.addTab}">
+      <span class="icon" @click="${this.addTab}">
         <fa-icon def='${JSON.stringify(faPlus)}'></fa-icon>
-      </button>`
+      </span>`
       : '';
     /**
      * `render` must return a lit-html `TemplateResult`.
@@ -90,8 +86,10 @@ export class RemixTabs extends LitElement {
      * with the `html` helper function:
      */
     return html`
-      ${remixTabs}
-      ${addTab}
+      <header class="nav nav-tabs">
+        ${remixTabs}
+        ${addTab}
+      </header>
     `;
   }
 }

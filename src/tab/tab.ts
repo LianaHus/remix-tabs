@@ -1,30 +1,28 @@
 import { customElement, LitElement, property, TemplateResult, html, css } from "lit-element";
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Tab } from './model';
+import { bootstrap, theme } from "../styles";
 
 @customElement('remix-tab')
 export class RemixTab extends LitElement {
   
   static styles = [
-    css`:host {
+    css`${bootstrap}`,
+    css`${theme}`,
+    css`.tab {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      background: #dee1e6;
-      border-radius: 6px 6px 0px 0px;
-      padding: 5px 10px;
     }`,
     css`.title {
       display: flex;
       flex-direction: row;
       align-items: center;
-      font-family: Arial;
-      font-size: 14px;
     }`,
     css`fa-icon {
       height: 14px;
-      padding-left: 5px;
+      padding-left: 10px;
       cursor: pointer;
     }`,
   ];
@@ -55,11 +53,13 @@ export class RemixTab extends LitElement {
    */
   render(): TemplateResult {
     return html`
-    <div class="title" title="${this.tab.tooltip}" >
-      <img src="${this.tab.icon}" />
-      <span>${this.tab.title}</span>
+    <div class="tab">
+      <div class="title" title="${this.tab.tooltip}" >
+        <img src="${this.tab.icon}" />
+        <span>${this.tab.title}</span>
+      </div>
+      <fa-icon def="${JSON.stringify(faTimes)}" @click="${this.closeTab}"></fa-icon>
     </div>
-    <fa-icon def="${JSON.stringify(faTimes)}" @click="${this.closeTab}"></fa-icon>
   `;
   }
 }
