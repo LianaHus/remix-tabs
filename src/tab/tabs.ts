@@ -42,13 +42,12 @@ export class RemixTabs extends LitElement {
 
   private defaultTab() {
     return {
-      id: this.tabs.length.toString(),
+      id: this.tabs.length.toString(), // @todo: id would be not unique after some tab would be closed
       title: this.defaultTitle,
       icon: this.defaultIcon,
       tooltip: this.defaultTitle
     }
   }
-
 
   /** Add a tab to the list */
   public addTab() {
@@ -79,6 +78,7 @@ export class RemixTabs extends LitElement {
         <fa-icon def='${JSON.stringify(faPlus)}'></fa-icon>
       </span>`
       : '';
+
     /**
      * `render` must return a lit-html `TemplateResult`.
      *
