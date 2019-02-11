@@ -2,7 +2,6 @@ import { customElement, LitElement, property, TemplateResult, html, css } from "
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Tab } from './model';
 import { bootstrap, theme } from "../styles";
-
 @customElement('remix-tab')
 export class RemixTab extends LitElement {
   
