@@ -74,7 +74,9 @@ export class RemixTabs extends LitElement {
   /** Remove a specific tab from the list */
   public removeTab({ detail: id }: CustomEvent) {
     const index = this.tabs.indexOf(this.tabs.find(tab => tab.id === id));
-    this.tabs = [...this.tabs.slice(0, index), ...this.tabs.slice(index, this.tabs.length - 1)];
+    if (index !== -1) {
+      this.tabs = [...this.tabs.slice(0, index), ...this.tabs.slice(index + 1, this.tabs.length)];
+    }
     // send message to the parent to remove one tab and update the property
   }
 
