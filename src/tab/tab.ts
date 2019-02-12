@@ -51,10 +51,11 @@ export class RemixTab extends LitElement {
    * `render` must return a lit-html `TemplateResult`.
    */
   render(): TemplateResult {
+    const icon =  this.tab.icon ?  "<img src='${this.tab.icon}' />" : "";
     return html`
     <div class="tab">
       <div class="title" title="${this.tab.tooltip}" >
-        <img src="${this.tab.icon}" />
+        ${icon}
         <span>${this.tab.title}</span>
       </div>
       <fa-icon def="${JSON.stringify(faTimes)}" @click="${this.closeTab}"></fa-icon>

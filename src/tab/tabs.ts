@@ -37,27 +37,43 @@ export class RemixTabs extends LitElement {
   @property({ type: String })
   public defaultIcon: string = '';
 
+  // enables/disables + button to add new tab
   @property({ type: Boolean })
   public canAdd = true;
 
-  private defaultTab() {
+  private generateId(): string {
+    let i = 1;
+    while (this.tabs.find(tab => tab.id === `${this.defaultTitle} ${i}`)) {
+      ++i;
+    }
+    return (`${this.defaultTitle} ${i}`).toString();
+  }
+
+  private defaultTab(): Tab {
+    const newId = this.generateId();
     return {
-      id: this.tabs.length.toString(), // @todo: id would be not unique after some tab would be closed
-      title: this.defaultTitle,
+      id: newId,
+      title: newId,
       icon: this.defaultIcon,
       tooltip: this.defaultTitle
     }
   }
 
-  /** Add a tab to the list */
-  public addTab() {
-    const tab = this.defaultTab();
+  /**
+   * Add a tab to the list.
+   * @returns an id of the created tab.
+   * */
+  public addTab(tab: Tab): string {
+    if (tab.id === undefined) {
+      tab = this.defaultTab();
+    }
     this.tabs = [ ...this.tabs, tab ];
+    return tab.id;
   }
 
   /** Remove a specific tab from the list */
   public removeTab({ detail: id }: CustomEvent) {
-    const index = this.tabs.indexOf(id);
+    const index = this.tabs.indexOf(this.tabs.find(tab => tab.id === id));
     this.tabs = [...this.tabs.slice(0, index), ...this.tabs.slice(index, this.tabs.length - 1)];
     // send message to the parent to remove one tab and update the property
   }
