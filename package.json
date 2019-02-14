@@ -2,7 +2,7 @@
   "name": "remix-tabs",
   "version": "1.0.1",
   "description": "",
-  "main": "dist/bundle.js",
+  "main": "./dist/bundle.js",
   "author": "",
   "license": "ISC",
   "devDependencies": {
