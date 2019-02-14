@@ -18,6 +18,7 @@ export class RemixTab extends LitElement {
       display: flex;
       flex-direction: row;
       align-items: center;
+      cursor: default;
     }`,
     css`fa-icon {
       height: 14px;
@@ -43,6 +44,10 @@ export class RemixTab extends LitElement {
     this.dispatchEvent(new CustomEvent('tabClosed', { detail: this.tab.id }));
   }
 
+  private tabActivated() {
+    this.dispatchEvent(new CustomEvent('tabActivated', { detail: this.tab.id }));
+  }
+
   /**
    * Implement `render` to define a template for your element.
    *
@@ -56,7 +61,7 @@ export class RemixTab extends LitElement {
     <div class="tab">
       <div class="title" title="${this.tab.tooltip}" >
         ${icon}
-        <span>${this.tab.title}</span>
+        <span @click="${this.tabActivated}">${this.tab.title}</span>
       </div>
       <fa-icon def="${JSON.stringify(faTimes)}" @click="${this.closeTab}"></fa-icon>
     </div>
