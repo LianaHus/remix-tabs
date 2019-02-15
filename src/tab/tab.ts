@@ -29,11 +29,18 @@ export class RemixTab extends LitElement {
 
   @property({ type: Object })
   public tab: Tab;
+
+  @property({ type: String, reflect: true })
+  public active: string;
   
   constructor() {
     super();
   }
-  
+  /*
+  createRenderRoot() {
+    return this;
+  }
+*/
   public closeTab() {
     // cleanup and close
     this.tabClosed();
@@ -57,6 +64,7 @@ export class RemixTab extends LitElement {
    */
   render(): TemplateResult {
     const icon =  this.tab.icon ?  "<img src='${this.tab.icon}' />" : "";
+    // add some style for active one this.active ;
     return html`
     <div class="tab">
       <div class="title" title="${this.tab.tooltip}" >

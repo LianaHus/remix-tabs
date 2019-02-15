@@ -28,8 +28,8 @@ export class RemixTabs extends LitElement {
   @property({ type: Array, reflect: true })
   public tabs: Partial<Tab>[] = [];
 
-  @property({ type: Array, reflect: true })
-  public activated: string;
+  @property({ type: String, reflect: true })
+  public active: string;
 
   @property({ type: String })
   public defaultTitle: string = 'New Tab';
@@ -40,6 +40,14 @@ export class RemixTabs extends LitElement {
   // enables/disables + button to add new tab
   @property({ type: Boolean })
   public canAdd = true;
+/*
+  constructor() {
+    super();
+  }
+
+  createRenderRoot() {
+    return this;
+  }*/
 
   private generateId(): string {
     let i = 1;
@@ -72,23 +80,26 @@ export class RemixTabs extends LitElement {
   }
 
   /** Remove a specific tab from the list */
-  public removeTab({ detail: id }: CustomEvent) {
+  public removeTab(event: CustomEvent) {
+    const id = event.detail;
     const index = this.tabs.findIndex(tab => tab.id === id)
     if (index !== -1) {
       this.tabs = [...this.tabs.slice(0, index), ...this.tabs.slice(index + 1, this.tabs.length)];
     }
-    // send message to the parent to remove one tab and update the property
   }
 
-  /**
-   * Implement `render` to define a template for your element.
-   *
-   * `render` should be provided for any element that uses LitElement as a base class.
-   * It will be executed whenever a property on our component changes.
-   */
   render(): TemplateResult {
     const remixTabs = this.tabs.map(tab => {
-      return html`<remix-tab class="nav-link" tab='${JSON.stringify(tab)}' @tabClosed=${this.removeTab}></remix-tab>`;
+      return html`
+        <remix-tab
+          class="nav-link"
+          tab='${JSON.stringify(tab)}'
+          @tabClosed=${this.removeTab}
+          active="${this.active === tab.id ? 'true' : 'false'}"
+         }
+        >
+        </remix-tab>
+      `;
     });
     const addTab = this.canAdd
       ? html`
@@ -97,12 +108,6 @@ export class RemixTabs extends LitElement {
       </span>`
       : '';
 
-    /**
-     * `render` must return a lit-html `TemplateResult`.
-     *
-     * To create a `TemplateResult`, tag a JavaScript template literal
-     * with the `html` helper function:
-     */
     return html`
       <header class="nav nav-tabs">
         ${remixTabs}
