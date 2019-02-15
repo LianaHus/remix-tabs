@@ -28,8 +28,8 @@ export class RemixTabs extends LitElement {
   @property({ type: Array, reflect: true })
   public tabs: Partial<Tab>[] = [];
 
-  @property({ type: Array, reflect: true })
-  public activated: string;
+  @property({ type: String, reflect: true })
+  public active: string;
 
   @property({ type: String })
   public defaultTitle: string = 'New Tab';
@@ -80,7 +80,8 @@ export class RemixTabs extends LitElement {
   }
 
   /** Remove a specific tab from the list */
-  public removeTab({ detail: id }: CustomEvent) {
+  public removeTab(event: CustomEvent) {
+    const id = event.detail;
     const index = this.tabs.findIndex(tab => tab.id === id)
     if (index !== -1) {
       this.tabs = [...this.tabs.slice(0, index), ...this.tabs.slice(index + 1, this.tabs.length)];
@@ -95,6 +96,7 @@ export class RemixTabs extends LitElement {
           class="nav-link"
           tab='${JSON.stringify(tab)}'
           @tabClosed=${this.removeTab}
+          active="${this.active === tab.id ? 'true' : 'false'}"
          }
         >
         </remix-tab>
