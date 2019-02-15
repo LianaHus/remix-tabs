@@ -98,7 +98,8 @@ export class RemixTabs extends LitElement {
           @tabClosed=${this.removeTab}
           @tabActivated="${this.activateTab}
         >
-        </remix-tab>`;
+        </remix-tab>
+      `;
     });
     const addTab = this.canAdd
       ? html`
