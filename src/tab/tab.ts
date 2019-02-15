@@ -33,7 +33,11 @@ export class RemixTab extends LitElement {
   constructor() {
     super();
   }
-  
+  /*
+  createRenderRoot() {
+    return this;
+  }
+*/
   public closeTab() {
     // cleanup and close
     this.tabClosed();

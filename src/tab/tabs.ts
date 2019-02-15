@@ -40,6 +40,14 @@ export class RemixTabs extends LitElement {
   // enables/disables + button to add new tab
   @property({ type: Boolean })
   public canAdd = true;
+/*
+  constructor() {
+    super();
+  }
+
+  createRenderRoot() {
+    return this;
+  }*/
 
   private generateId(): string {
     let i = 1;
@@ -80,15 +88,6 @@ export class RemixTabs extends LitElement {
     this.dispatchEvent(id)
   }
 
-  /** activate a specific tab from the list */
-  public activateTab({ detail: id }: CustomEvent) {
-    const index = this.tabs.findIndex(tab => tab.id === id)
-    if (index !== -1) {
-      this.activated = id;
-    }
-    this.dispatchEvent(id)
-  }
-
   render(): TemplateResult {
     const remixTabs = this.tabs.map(tab => {
       return html`
@@ -96,7 +95,7 @@ export class RemixTabs extends LitElement {
           class="nav-link"
           tab='${JSON.stringify(tab)}'
           @tabClosed=${this.removeTab}
-          @tabActivated="${this.activateTab}
+         }
         >
         </remix-tab>
       `;
