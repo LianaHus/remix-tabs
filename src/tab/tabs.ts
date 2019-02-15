@@ -86,7 +86,7 @@ export class RemixTabs extends LitElement {
     if (index !== -1) {
       this.tabs = [...this.tabs.slice(0, index), ...this.tabs.slice(index + 1, this.tabs.length)];
     }
-    this.dispatchEvent(id)
+    this.dispatchEvent(event)
   }
 
   render(): TemplateResult {
