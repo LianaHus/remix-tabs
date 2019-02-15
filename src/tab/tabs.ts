@@ -77,18 +77,28 @@ export class RemixTabs extends LitElement {
     if (index !== -1) {
       this.tabs = [...this.tabs.slice(0, index), ...this.tabs.slice(index + 1, this.tabs.length)];
     }
-    // send message to the parent to remove one tab and update the property
+    this.dispatchEvent(id)
   }
 
-  /**
-   * Implement `render` to define a template for your element.
-   *
-   * `render` should be provided for any element that uses LitElement as a base class.
-   * It will be executed whenever a property on our component changes.
-   */
+  /** activate a specific tab from the list */
+  public activateTab({ detail: id }: CustomEvent) {
+    const index = this.tabs.findIndex(tab => tab.id === id)
+    if (index !== -1) {
+      this.activated = id;
+    }
+    this.dispatchEvent(id)
+  }
+
   render(): TemplateResult {
     const remixTabs = this.tabs.map(tab => {
-      return html`<remix-tab class="nav-link" tab='${JSON.stringify(tab)}' @tabClosed=${this.removeTab}></remix-tab>`;
+      return html`
+        <remix-tab
+          class="nav-link"
+          tab='${JSON.stringify(tab)}'
+          @tabClosed=${this.removeTab}
+          @tabActivated="${this.activateTab}
+        >
+        </remix-tab>`;
     });
     const addTab = this.canAdd
       ? html`
@@ -97,12 +107,6 @@ export class RemixTabs extends LitElement {
       </span>`
       : '';
 
-    /**
-     * `render` must return a lit-html `TemplateResult`.
-     *
-     * To create a `TemplateResult`, tag a JavaScript template literal
-     * with the `html` helper function:
-     */
     return html`
       <header class="nav nav-tabs">
         ${remixTabs}
