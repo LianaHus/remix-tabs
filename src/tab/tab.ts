@@ -57,7 +57,6 @@ export class RemixTab extends LitElement {
 
   private activated() {
     this.dispatchEvent(new CustomEvent('selected', { detail: this.tab.id }));
-  
   }
 
   /**
