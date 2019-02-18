@@ -19,6 +19,13 @@ export class RemixTab extends LitElement {
       flex-direction: row;
       align-items: center;
       cursor: default;
+      /*to make it unselectable*/
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none;   /* Chrome/Safari/Opera */
+      -khtml-user-select: none;    /* Konqueror */
+      -moz-user-select: none;      /* Firefox */
+      -ms-user-select: none;       /* Internet Explorer/Edge */
+      user-select: none;           /* Non-prefixed version, currently supported by any browser but < IE9 */
     }`,
     css`fa-icon {
       height: 14px;
@@ -30,29 +37,26 @@ export class RemixTab extends LitElement {
   @property({ type: Object })
   public tab: Tab;
 
-  @property({ type: String, reflect: true })
+  @property({ type: String})
   public active: string;
   
   constructor() {
     super();
   }
+
   /*
   createRenderRoot() {
     return this;
   }
 */
-  public closeTab() {
-    // cleanup and close
-    this.tabClosed();
-  }
-  
+
   // Fire a custom event for others to listen to
-  private tabClosed() {
-    this.dispatchEvent(new CustomEvent('tabClosed', { detail: this.tab.id }));
+  private closed() {
+    this.dispatchEvent(new CustomEvent('closed', { detail: this.tab.id }));
   }
 
-  private tabActivated() {
-    this.dispatchEvent(new CustomEvent('tabActivated', { detail: this.tab.id }));
+  private activated() {
+    this.dispatchEvent(new CustomEvent('ctivated', { detail: this.tab.id }));
   }
 
   /**
@@ -63,15 +67,15 @@ export class RemixTab extends LitElement {
    * `render` must return a lit-html `TemplateResult`.
    */
   render(): TemplateResult {
-    const icon =  this.tab.icon ?  "<img src='${this.tab.icon}' />" : "";
+    const icon =  this.tab.icon ? html`<img src='${this.tab.icon}' />` : "";
     // add some style for active one this.active ;
     return html`
     <div class="tab">
       <div class="title" title="${this.tab.tooltip}" >
         ${icon}
-        <span @click="${this.tabActivated}">${this.tab.title}</span>
+        <span @click="${this.activated}" @ondblclick="${this.activated}">${this.tab.title}</span>
       </div>
-      <fa-icon def="${JSON.stringify(faTimes)}" @click="${this.closeTab}"></fa-icon>
+      <fa-icon def="${JSON.stringify(faTimes)}" @click="${this.closed}"></fa-icon>
     </div>
   `;
   }
