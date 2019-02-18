@@ -1,6 +1,10 @@
 {
   "name": "remix-tabs",
+<<<<<<< HEAD
   "version": "1.0.2",
+=======
+  "version": "1.0.5",
+>>>>>>> b5228c4... version
   "description": "",
   "main": "./dist/bundle.js",
   "author": "",

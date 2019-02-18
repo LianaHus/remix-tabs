@@ -74,9 +74,9 @@ export class RemixTabs extends LitElement {
   public addTab(tab: Tab): string {
     if (tab.id === undefined) {
       tab = this.defaultTab();
-      this.dispatchEvent(new CustomEvent('tabAdded', { detail: JSON.stringify(tab) }))
     }
     this.tabs = [ ...this.tabs, tab ];
+    this.dispatchEvent(new CustomEvent('tabAdded', { detail: JSON.stringify(tab) }))
     return tab.id;
   }
 
