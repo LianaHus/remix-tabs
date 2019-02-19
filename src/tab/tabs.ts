@@ -103,7 +103,7 @@ export class RemixTabs extends LitElement {
           class="nav-link"
           tab='${JSON.stringify(tab)}'
           @closed=${this.closeTab}
-          @selected=${this.dispatchEvent(new CustomEvent('tabActivated', {detail: tab.id}))}
+          @selectedChanged=${this.dispatchEvent(new CustomEvent('tabActivated', {detail: tab.id}))}
           active="${this.active === tab.id ? 'true' : 'false'}"
          }
         >
