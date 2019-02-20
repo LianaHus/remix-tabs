@@ -90,6 +90,10 @@ export class RemixTabs extends LitElement {
     }
     this.dispatchEvent(new CustomEvent('tabClosed', {detail: id}))
   }
+  
+  public sendActivateEvent(event: CustomEvent) {
+    this.dispatchEvent(new CustomEvent('tabActivated', {detail: event.detail}))
+  }
 
   /** Activate a specific tab from the list */
   public activateTab(id: string) {
@@ -103,7 +107,7 @@ export class RemixTabs extends LitElement {
           class="nav-link"
           tab='${JSON.stringify(tab)}'
           @closed=${this.closeTab}
-          @activeChanged=${this.dispatchEvent(new CustomEvent('tabActivated', {detail: tab.id}))}
+          @activeChanged=${this.sendActivateEvent}
           active="${this.active === tab.id ? 'true' : 'false'}"
          }
         >
