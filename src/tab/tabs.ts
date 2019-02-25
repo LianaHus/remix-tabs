@@ -1,5 +1,4 @@
 import { customElement, LitElement, property, TemplateResult, html, css } from "lit-element";
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Tab } from './model';
 import { bootstrap, theme } from '../styles';
 
@@ -9,20 +8,6 @@ export class RemixTabs extends LitElement {
   static styles = [
     css`${bootstrap}`,
     css`${theme}`,
-    css`header {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-    }`,
-    css`.icon {
-      margin-left: 10px;
-      height: 25px;
-      width: 25px;
-      cursor: pointer;
-    }`,
-    css`fa-icon {
-      height: 50%;
-    }`,
   ];
 
   @property({ type: Array })
@@ -40,14 +25,15 @@ export class RemixTabs extends LitElement {
   // enables/disables + button to add new tab
   @property({ type: Boolean })
   public canAdd = true;
-/*
+
   constructor() {
     super();
   }
 
+  // removing Shadow DOM and using Light DOM instead
   createRenderRoot() {
     return this;
-  }*/
+  }
 
   private generateId(): string {
     let i = 1;
@@ -103,6 +89,19 @@ export class RemixTabs extends LitElement {
   render(): TemplateResult {
     const remixTabs = this.tabs.map(tab => {
       return html`
+        <style>
+        #header {
+        }
+        #plus {
+          display: inherit;
+          align-items: center;
+          padding-left: 4px;
+        }
+        #close {
+          padding-left: 4px;
+          size: 0.5m;
+        }
+        </style>
         <remix-tab
           class="nav-link"
           tab='${JSON.stringify(tab)}'
@@ -116,13 +115,13 @@ export class RemixTabs extends LitElement {
     });
     const addTab = this.canAdd
       ? html`
-      <span class="icon" @click="${this.addTab}">
-        <fa-icon def='${JSON.stringify(faPlus)}'></fa-icon>
+      <span id="plus" @click="${this.addTab}">
+        <i class="fa fa-plus "  aria-hidden="true" ></i>
       </span>`
       : '';
 
     return html`
-      <header class="nav nav-tabs">
+      <header id="header" class="nav nav-tabs">
         ${remixTabs}
         ${addTab}
       </header>
