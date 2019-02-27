@@ -1,6 +1,7 @@
 import { customElement, LitElement, property, TemplateResult, html, css } from "lit-element";
 import { Tab } from './model';
 import { bootstrap, theme } from '../styles';
+import { RemixTab } from "./tab";
 
 @customElement('remix-tabs')
 export class RemixTabs extends LitElement {
@@ -61,8 +62,9 @@ export class RemixTabs extends LitElement {
     if (tab.id === undefined) {
       tab = this.defaultTab();
     }
-    this.tabs = [ ...this.tabs, tab ];
     this.dispatchEvent(new CustomEvent('tabAdded', { detail: JSON.stringify(tab) }))
+    this.tabs = [ ...this.tabs, tab ];
+    this.updateActives(tab.id);
     return tab.id;
   }
 
@@ -77,37 +79,59 @@ export class RemixTabs extends LitElement {
     this.dispatchEvent(new CustomEvent('tabClosed', {detail: id}))
   }
   
+  public updateActives(active: string) {
+    assert(active == "", "active is broken");
+    this.active = active;
+    var elements = this.getElementsByTagName("remix-tab");
+    for(var i = 0; i < elements.length; i++) {
+      let tabElement = <RemixTab>(elements[i]);
+      tabElement.setActive(tabElement.id == active);
+      tabElement.performUpdatePublic();
+    }
+    this.performUpdate();
+  } 
+
   public sendActivateEvent(event: CustomEvent) {
+    this.updateActives(event.detail);
     this.dispatchEvent(new CustomEvent('tabActivated', {detail: event.detail}))
   }
 
   /** Activate a specific tab from the list */
   public activateTab(id: string) {
-    this.active = id;
+    this.updateActives(id);
   }
 
   render(): TemplateResult {
-    const remixTabs = this.tabs.map(tab => {
-      return html`
-        <style>
-        #header {
+    console.log("size is " + this.tabs.length)
+    const style = html`
+      <style>
+        .header {
+          background-color: var(--primary);
+          color: var(--secondary);
+          flex-direction: row;
+          align-items: center;
+          padding: inherit;
         }
-        #plus {
+        .plus {
           display: inherit;
           align-items: center;
           padding-left: 4px;
         }
-        #close {
-          padding-left: 4px;
-          size: 0.5m;
+        .tabsettings {
+          padding: inherit;
         }
-        </style>
+      </style>
+    `;
+    const remixTabs = this.tabs.map(tab => {
+      console.log("rerender for " + tab.title + " is " + this.active + " " + tab.id)
+      return html`
         <remix-tab
-          class="nav-link"
+          id = ${tab.id}
+          class="nav-link tabsettings"
           tab='${JSON.stringify(tab)}'
           @closed=${this.closeTab}
           @activeChanged=${this.sendActivateEvent}
-          active="${this.active === tab.id ? 'true' : 'false'}"
+          active=${this.active == tab.id}
          }
         >
         </remix-tab>
@@ -115,16 +139,25 @@ export class RemixTabs extends LitElement {
     });
     const addTab = this.canAdd
       ? html`
-      <span id="plus" @click="${this.addTab}">
-        <i class="fa fa-plus "  aria-hidden="true" ></i>
+      <span class="plus" @click="${this.addTab}">
+        <i class="fa fa-plus"  aria-hidden="true" ></i>
       </span>`
       : '';
 
     return html`
-      <header id="header" class="nav nav-tabs">
+      <header class="header nav nav-tabs" >
+        ${style}
         ${remixTabs}
         ${addTab}
       </header>
     `;
+  }
+}
+
+// todo remove
+function assert(cond: boolean, s: string)
+{
+  if (!cond) {
+    console.log(s);
   }
 }
