@@ -1,4 +1,4 @@
-import { customElement, LitElement, property, TemplateResult, html, css, eventOptions } from "lit-element";
+import { customElement, LitElement, property, TemplateResult, html, css } from "lit-element";
 import { Tab } from './model';
 import { bootstrap, theme } from "../styles";
 @customElement('remix-tab')
