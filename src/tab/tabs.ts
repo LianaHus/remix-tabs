@@ -62,34 +62,49 @@ export class RemixTabs extends LitElement {
     if (tab.id === undefined) {
       tab = this.defaultTab();
     }
+    this.tabs = [...this.tabs, tab];
     this.dispatchEvent(new CustomEvent('tabAdded', { detail: JSON.stringify(tab) }))
-    this.tabs = [ ...this.tabs, tab ];
     this.updateActives(tab.id);
     return tab.id;
   }
 
-  /** Remove a specific tab from the list */
-  public closeTab(event: CustomEvent) {
-    const id = event.detail;
+   /**
+   * removes the tab with given id from the list.
+   * @param id of the tab to remove
+   * */
+  public removeTab(id: string)
+  {
     const index = this.tabs.findIndex(tab => tab.id === id)
     if (index !== -1) {
       // move to parent
       this.tabs = [...this.tabs.slice(0, index), ...this.tabs.slice(index + 1, this.tabs.length)];
     }
-    this.dispatchEvent(new CustomEvent('tabClosed', {detail: id}))
+    //set new active if needed
+    if (this.active == id && this.tabs.length > 0) {
+      this.updateActives(this.tabs[this.tabs.length-1].id);
+    }
+    this.updateActives(this.active)
   }
-  
+
+  /** Remove a specific tab from the list */
+  private closeTab(event: CustomEvent) {
+    this.removeTab(event.detail)
+    this.dispatchEvent(new CustomEvent('tabClosed', { detail: event.detail }))
+  }
+
   public updateActives(active: string) {
-    assert(active == "", "active is broken");
+    this.performUpdate();
     this.active = active;
     var elements = this.getElementsByTagName("remix-tab");
-    for(var i = 0; i < elements.length; i++) {
+    for (let i = 0; i < elements.length; i++) {
       let tabElement = <RemixTab>(elements[i]);
+      if (!tabElement) {
+        continue;
+      }
       tabElement.setActive(tabElement.id == active);
       tabElement.performUpdatePublic();
     }
-    this.performUpdate();
-  } 
+  }
 
   public sendActivateEvent(event: CustomEvent) {
     this.updateActives(event.detail);
@@ -102,7 +117,6 @@ export class RemixTabs extends LitElement {
   }
 
   render(): TemplateResult {
-    console.log("size is " + this.tabs.length)
     const style = html`
       <style>
         .header {
@@ -111,6 +125,8 @@ export class RemixTabs extends LitElement {
           flex-direction: row;
           align-items: center;
           padding: inherit;
+          max-height: 28px;
+          height: -webkit-fill-available;
         }
         .plus {
           display: inherit;
@@ -123,7 +139,6 @@ export class RemixTabs extends LitElement {
       </style>
     `;
     const remixTabs = this.tabs.map(tab => {
-      console.log("rerender for " + tab.title + " is " + this.active + " " + tab.id)
       return html`
         <remix-tab
           id = ${tab.id}
@@ -131,7 +146,7 @@ export class RemixTabs extends LitElement {
           tab='${JSON.stringify(tab)}'
           @closed=${this.closeTab}
           @activeChanged=${this.sendActivateEvent}
-          active=${this.active == tab.id}
+          ${this.active == tab.id ? " active='true'" : "active='false'"}
          }
         >
         </remix-tab>
@@ -151,13 +166,5 @@ export class RemixTabs extends LitElement {
         ${addTab}
       </header>
     `;
-  }
-}
-
-// todo remove
-function assert(cond: boolean, s: string)
-{
-  if (!cond) {
-    console.log(s);
   }
 }

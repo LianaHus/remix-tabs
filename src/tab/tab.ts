@@ -1,4 +1,4 @@
-import { customElement, LitElement, property, TemplateResult, html, css } from "lit-element";
+import { customElement, LitElement, property, TemplateResult, html, css, eventOptions } from "lit-element";
 import { Tab } from './model';
 import { bootstrap, theme } from "../styles";
 @customElement('remix-tab')
@@ -12,16 +12,17 @@ export class RemixTab extends LitElement {
   @property({ type: Object})
   public tab: Tab;
 
-  @property({ type: Boolean})
+  /**
+   * when the property is:
+   * null - remove the attribute.
+   * undefined - don't change the attribute.
+   * Defined and not null - set the attribute to the property value.
+   */
+  @property({ type: String})
   public active: boolean = false;
   
   constructor() {
     super();
-  }
-
-  attributeChangedCallback(name, oldval, newval) {
-    console.log('attribute of ' + this.id + ' change: ', "name is " + name, " new is " + newval, " old is " + oldval);
-    super.attributeChangedCallback(name, oldval, newval);
   }
 
   performUpdatePublic() {
@@ -42,22 +43,12 @@ export class RemixTab extends LitElement {
     this.dispatchEvent(new CustomEvent('closed', { detail: this.tab.id }));
   }
 
-  private activated() {
-   // this.active = true;
-    this.dispatchEvent(new CustomEvent('activeChanged', { detail: this.tab.id, bubbles: true, composed: true}));
+  private activated(event) {
+    this.dispatchEvent(new CustomEvent('activeChanged', { detail: this.tab.id}));
   }
 
-  /**
-   * Implement `render` to define a template for your element.
-   *
-   * `render` should be provided for any element that uses LitElement as a base class.
-   * It will be executed whenever a property on our component changes.
-   * `render` must return a lit-html `TemplateResult`.
-   */
   render(): TemplateResult {
     const icon =  this.tab.icon ? html`<img src='${this.tab.icon}' />` : "";
-    // add some style for active one this.active ;
-    console.log("tab render for " + this.tab.title + " is " + this.active)
     return html`
     <style>
       .title {
@@ -99,18 +90,10 @@ export class RemixTab extends LitElement {
     <div class="${this.active ? 'tab active' : 'tab inactive'}" title="${this.tab.tooltip}" >
       ${icon}
       <span class="title" @click="${this.activated}">${this.tab.title}</span>
-      <span class="close"  @click="${this.closed}">
+      <span class="close" @click="${this.closed}">
         <i class="fa fa-times "></i>
       </span>
     </div>
   `;
-  }
-}
-
-// todo remove
-function assert(cond: boolean, s: string)
-{
-  if (cond) {
-    console.log(s);
   }
 }
