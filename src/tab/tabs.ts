@@ -101,7 +101,7 @@ export class RemixTabs extends LitElement {
       if (!tabElement) {
         continue;
       }
-      tabElement.setActive(tabElement.id == active);
+      tabElement.active = tabElement.id == active;
       tabElement.performUpdatePublic();
     }
   }
@@ -125,7 +125,7 @@ export class RemixTabs extends LitElement {
           flex-direction: row;
           align-items: center;
           padding: inherit;
-          max-height: 28px;
+          max-height: 27px;
           height: -webkit-fill-available;
         }
         .plus {

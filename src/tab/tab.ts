@@ -29,10 +29,6 @@ export class RemixTab extends LitElement {
     this.performUpdate();
   }
 
-  setActive(value: boolean) {
-    this.active = value;
-  }
-
   // removing Shadow DOM and using Light DOM instead
   createRenderRoot() {
     return this;
