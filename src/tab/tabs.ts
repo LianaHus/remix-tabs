@@ -5,7 +5,6 @@ import { RemixTab } from "./tab";
 @customElement('remix-tabs')
 export class RemixTabs extends LitElement {
 
-
   @property({ type: Array })
   public tabs: Partial<Tab>[] = [];
 

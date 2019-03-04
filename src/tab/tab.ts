@@ -1,9 +1,9 @@
 import { customElement, LitElement, property, TemplateResult, html, css } from "lit-element";
 import { Tab } from './model';
+
 @customElement('remix-tab')
 export class RemixTab extends LitElement {
   
-
   @property({ type: Object})
   public tab: Tab;
 
