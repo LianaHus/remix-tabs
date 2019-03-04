@@ -1,15 +1,10 @@
 import { customElement, LitElement, property, TemplateResult, html, css } from "lit-element";
 import { Tab } from './model';
-import { bootstrap, theme } from '../styles';
 import { RemixTab } from "./tab";
 
 @customElement('remix-tabs')
 export class RemixTabs extends LitElement {
 
-  static styles = [
-    css`${bootstrap}`,
-    css`${theme}`,
-  ];
 
   @property({ type: Array })
   public tabs: Partial<Tab>[] = [];
@@ -101,7 +96,7 @@ export class RemixTabs extends LitElement {
       if (!tabElement) {
         continue;
       }
-      tabElement.setActive(tabElement.id == active);
+      tabElement.active = tabElement.id == active;
       tabElement.performUpdatePublic();
     }
   }
@@ -125,7 +120,7 @@ export class RemixTabs extends LitElement {
           flex-direction: row;
           align-items: center;
           padding: inherit;
-          max-height: 28px;
+          max-height: 27px;
           height: -webkit-fill-available;
         }
         .plus {
