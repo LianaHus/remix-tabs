@@ -110,6 +110,7 @@ export class RemixTabs extends LitElement {
     this.updateActives(id);
   }
 
+  //todo remove fix size
   render(): TemplateResult {
     const style = html`
       <style>
@@ -119,8 +120,10 @@ export class RemixTabs extends LitElement {
           flex-direction: row;
           align-items: center;
           padding: inherit;
-          max-height: 27px;
+          max-height: 35px;
           height: -webkit-fill-available;
+          border-top-left-radius: 3px;
+          border-top-right-radius: 3px;
         }
         .plus {
           display: inherit;
