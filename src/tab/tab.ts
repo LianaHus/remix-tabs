@@ -1,13 +1,8 @@
 import { customElement, LitElement, property, TemplateResult, html, css } from "lit-element";
 import { Tab } from './model';
-import { bootstrap, theme } from "../styles";
 @customElement('remix-tab')
 export class RemixTab extends LitElement {
   
-  static styles = [
-    css`${bootstrap}`,
-    css`${theme}`
-  ];
 
   @property({ type: Object})
   public tab: Tab;
