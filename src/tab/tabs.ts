@@ -1,15 +1,9 @@
 import { customElement, LitElement, property, TemplateResult, html, css } from "lit-element";
 import { Tab } from './model';
-import { bootstrap, theme } from '../styles';
 import { RemixTab } from "./tab";
 
 @customElement('remix-tabs')
 export class RemixTabs extends LitElement {
-
-  static styles = [
-    css`${bootstrap}`,
-    css`${theme}`,
-  ];
 
   @property({ type: Array })
   public tabs: Partial<Tab>[] = [];
