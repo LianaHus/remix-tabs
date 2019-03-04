@@ -61,7 +61,6 @@ export class RemixTab extends LitElement {
         border-top-left-radius: 3px;
         border-top-right-radius: 3px;
         color: var(--primary);
-        border-bottom-style: none;
       }
       .inactive {
         background-color: var(--primary);
@@ -74,7 +73,14 @@ export class RemixTab extends LitElement {
         padding: inherit;
         height: 35px;
       }
+      .x:hover .close {
+        visibility: visible
+      }
+      .active .close {
+        visibility: visible
+      }
       .close {
+        visibility: hidden;
         padding-left: 4px;
         padding-right: 4px;
         size: 0.5em;
@@ -85,8 +91,10 @@ export class RemixTab extends LitElement {
     <div class="${this.active ? 'tab active bg-light' : 'tab inactive'}" title="${this.tab.tooltip}" >
       ${icon}
       <span class="title" @click="${this.activated}">${this.tab.title}</span>
-      <span class="close" @click="${this.closed}">
-        <i class="fa fa-times "></i>
+      <span class = 'x'>
+        <span class="close" @click="${this.closed}">
+          <i class="fa fa-times "></i>
+        </span>
       </span>
     </div>
   `;
