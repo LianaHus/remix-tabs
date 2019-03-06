@@ -110,25 +110,29 @@ export class RemixTabs extends LitElement {
     this.updateActives(id);
   }
 
+  //todo remove fix size
   render(): TemplateResult {
     const style = html`
       <style>
         .header {
-          background-color: var(--primary);
-          color: var(--secondary);
+          background-color: var(--secondary);
           flex-direction: row;
           align-items: center;
           padding: inherit;
-          max-height: 27px;
+          max-height: 35px;
           height: -webkit-fill-available;
+          border-top-left-radius: 3px;
+          border-top-right-radius: 3px;
         }
         .plus {
           display: inherit;
           align-items: center;
           padding-left: 4px;
+          color: var(--white)
         }
         .tabsettings {
           padding: inherit;
+          margin-right: 1px;
         }
       </style>
     `;

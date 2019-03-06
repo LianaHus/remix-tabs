@@ -46,8 +46,8 @@ export class RemixTab extends LitElement {
         flex-direction: row;
         padding: inherit;
         align-items: center;
-        padding-left: 4px;
-        padding-right: 4px;
+        padding-left: 8px;
+        padding-right: 8px;
         cursor: default;
         /*to make it unselectable*/
         -webkit-touch-callout: none; /* iOS Safari */
@@ -58,31 +58,41 @@ export class RemixTab extends LitElement {
         user-select: none;           /* Non-prefixed version, currently supported by any browser but < IE9 */
       }
       .active {
-        background-color: var(--secondary);
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
         color: var(--primary);
       }
       .inactive {
         background-color: var(--primary);
-        color: var(--secondary);
       }
       .tab {
         display: flex;
         flex-direction: row;
         align-items: center;
         padding: inherit;
+        height: 34px;
+      }
+      .x:hover .close {
+        visibility: visible
+      }
+      .active .close {
+        visibility: visible
       }
       .close {
-        padding-left: 4px;
-        padding-right: 4px;
-        size: 0.5m;
-      }
+        visibility: hidden;
+        padding-right: 8px;
+        size: 0.5em;
+        font-size: 1em;
+    }
     </style>
 
-    <div class="${this.active ? 'tab active' : 'tab inactive'}" title="${this.tab.tooltip}" >
+    <div class="${this.active ? 'tab active bg-light' : 'tab inactive text-light'}" title="${this.tab.tooltip}" >
       ${icon}
       <span class="title" @click="${this.activated}">${this.tab.title}</span>
-      <span class="close" @click="${this.closed}">
-        <i class="fa fa-times "></i>
+      <span class = 'x'>
+        <span class="close" @click="${this.closed}">
+          <i class="fa fa-times"></i>
+        </span>
       </span>
     </div>
   `;
