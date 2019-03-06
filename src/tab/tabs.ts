@@ -115,8 +115,7 @@ export class RemixTabs extends LitElement {
     const style = html`
       <style>
         .header {
-          background-color: var(--primary);
-          color: var(--secondary);
+          background-color: var(--secondary);
           flex-direction: row;
           align-items: center;
           padding: inherit;
@@ -129,9 +128,11 @@ export class RemixTabs extends LitElement {
           display: inherit;
           align-items: center;
           padding-left: 4px;
+          color: var(--white)
         }
         .tabsettings {
           padding: inherit;
+          margin-right: 1px;
         }
       </style>
     `;
