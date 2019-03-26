@@ -114,13 +114,14 @@ export class RemixTabs extends LitElement {
   render(): TemplateResult {
     const style = html`
       <style>
+        remix-tabs {
+          height: 100%;
+        }
         .header {
           background-color: var(--secondary);
           flex-direction: row;
           align-items: center;
-          padding: inherit;
-          max-height: 35px;
-          height: -webkit-fill-available;
+          height: 100%;
           border-top-left-radius: 3px;
           border-top-right-radius: 3px;
         }
@@ -130,17 +131,31 @@ export class RemixTabs extends LitElement {
           padding-left: 4px;
           color: var(--white)
         }
-        .tabsettings {
-          padding: inherit;
+        remix-tab {
           margin-right: 1px;
+          margin-top: 0px;
+          height: 100%;
+        }
+        .active {
+          border-top-left-radius: 3px;
+          border-top-right-radius: 3px;
+        }
+        .tab {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
         }
       </style>
     `;
+  
     const remixTabs = this.tabs.map(tab => {
+      let cl = tab.id === this.active ?
+        'tab bg-dark text-light' :
+        'tab light text-dark'
       return html`
         <remix-tab
           id = ${tab.id}
-          class="nav-link tabsettings"
+          class="nav-link ${cl}"
           tab='${JSON.stringify(tab)}'
           @closed=${this.closeTab}
           @activeChanged=${this.sendActivateEvent}
