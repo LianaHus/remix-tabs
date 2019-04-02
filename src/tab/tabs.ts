@@ -145,7 +145,7 @@ export class RemixTabs extends LitElement {
   
     const remixTabs = this.tabs.map(tab => {
       let cl = tab.id === this.active ?
-        'active bg-light' :
+        'active' :
         ''
       return html`
         <remix-tab
