@@ -46,7 +46,6 @@ export class RemixTab extends LitElement {
         flex-direction: row;
         padding: inherit;
         align-items: center;
-        padding-left: 8px;
         padding-right: 8px;
         cursor: default;
         /*to make it unselectable*/
@@ -65,16 +64,14 @@ export class RemixTab extends LitElement {
       }
       .close {
         visibility: hidden;
-        padding-right: 8px;
+        padding-right: 4px;
         size: 0.5em;
         font-size: 1em;
+        margin-top: 4px;
     }
     </style>
 
-    <div class="${this.active ?
-      'tab active bg-dark text-light' :
-      'tab inactive light text-dark'}" title="${this.tab.tooltip}"
-    >
+    <div title="${this.tab.tooltip}">
       ${icon}
       <span class="title" @click="${this.activated}">${this.tab.title}</span>
       <span class = 'x'>
