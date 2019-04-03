@@ -145,12 +145,12 @@ export class RemixTabs extends LitElement {
   
     const remixTabs = this.tabs.map(tab => {
       let cl = tab.id === this.active ?
-        'active' :
-        ''
+        'active border-bottom-0 border-dark' :
+        'border-0'
       return html`
         <remix-tab
           id = ${tab.id}
-          class="nav-item p-1 nav-link ${cl}"
+          class="nav-item nav-link ${cl}"
           tab='${JSON.stringify(tab)}'
           @closed=${this.closeTab}
           @activeChanged=${this.sendActivateEvent}
