@@ -139,6 +139,7 @@ export class RemixTabs extends LitElement {
           display: flex;
           flex-direction: row;
           align-items: center;
+          padding-right: 4px;
         }
       </style>
     `;
@@ -150,7 +151,7 @@ export class RemixTabs extends LitElement {
       return html`
         <remix-tab
           id = ${tab.id}
-          class="nav-item nav-link ${cl}"
+          class="nav-item p-1 nav-link ${cl}"
           tab='${JSON.stringify(tab)}'
           @closed=${this.closeTab}
           @activeChanged=${this.sendActivateEvent}
