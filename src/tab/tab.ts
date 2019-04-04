@@ -76,7 +76,7 @@ export class RemixTab extends LitElement {
       <span class="title" @click="${this.activated}">${this.tab.title}</span>
       <span class = 'x'>
         <span class="close" @click="${this.closed}">
-          <i class="fa fa-times"></i>
+          <i class="text-dark fa fa-times"></i>
         </span>
       </span>
     </div>

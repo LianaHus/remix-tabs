@@ -164,7 +164,7 @@ export class RemixTabs extends LitElement {
     const addTab = this.canAdd
       ? html`
       <span class="plus" @click="${this.addTab}">
-        <i class="dark fa fa-plus"  aria-hidden="true" ></i>
+        <i class="text-dark fa fa-plus"  aria-hidden="true" ></i>
       </span>`
       : '';
 
