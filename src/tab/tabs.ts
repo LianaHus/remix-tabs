@@ -114,13 +114,13 @@ export class RemixTabs extends LitElement {
   render(): TemplateResult {
     const style = html`
       <style>
+        remix-tabs {
+          height: 100%;
+        }
         .header {
-          background-color: var(--secondary);
           flex-direction: row;
           align-items: center;
-          padding: inherit;
-          max-height: 35px;
-          height: -webkit-fill-available;
+          height: 100%;
           border-top-left-radius: 3px;
           border-top-right-radius: 3px;
         }
@@ -128,19 +128,30 @@ export class RemixTabs extends LitElement {
           display: inherit;
           align-items: center;
           padding-left: 4px;
-          color: var(--white)
+          color: var(--text-light)
         }
-        .tabsettings {
-          padding: inherit;
+        remix-tab {
           margin-right: 1px;
+          margin-top: 0px;
+          height: 100%;
+        }
+        .tab {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding-right: 4px;
         }
       </style>
     `;
+  
     const remixTabs = this.tabs.map(tab => {
+      let cl = tab.id === this.active ?
+        'active border-bottom-0 border-dark' :
+        'border-0'
       return html`
         <remix-tab
           id = ${tab.id}
-          class="nav-link tabsettings"
+          class="nav-item p-1 nav-link ${cl}"
           tab='${JSON.stringify(tab)}'
           @closed=${this.closeTab}
           @activeChanged=${this.sendActivateEvent}
@@ -153,12 +164,12 @@ export class RemixTabs extends LitElement {
     const addTab = this.canAdd
       ? html`
       <span class="plus" @click="${this.addTab}">
-        <i class="fa fa-plus"  aria-hidden="true" ></i>
+        <i class="text-dark fa fa-plus"  aria-hidden="true" ></i>
       </span>`
       : '';
 
     return html`
-      <header class="header nav nav-tabs" >
+      <header class="header nav nav-tabs role="tablist" >
         ${style}
         ${remixTabs}
         ${addTab}
