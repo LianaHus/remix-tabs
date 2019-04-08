@@ -71,7 +71,7 @@ export class RemixTab extends LitElement {
     }
     </style>
 
-    <div class="tab" title="${this.tab.tooltip}">
+    <div title="${this.tab.tooltip}">
       ${icon}
       <span class="title" @click="${this.activated}">${this.tab.title}</span>
       <span class="x">
