@@ -1,6 +1,6 @@
 {
   "name": "remix-tabs",
-  "version": "1.0.28",
+  "version": "1.0.33",
   "description": "",
   "main": "./dist/bundle.js",
   "author": "",
@@ -8,6 +8,7 @@
   "devDependencies": {
     "@types/events": "^3.0.0",
     "@webcomponents/webcomponentsjs": "^2.2.4",
+    "@fortawesome/fontawesome-free": "^5.8.1",
     "acorn": "^6.0.7",
     "ts-loader": "^5.3.3",
     "typescript": "^3.2.4",

@@ -119,6 +119,7 @@ export class RemixTabs extends LitElement {
         }
         .header {
           flex-direction: row;
+          display: flex;
           align-items: center;
           height: 100%;
           border-top-left-radius: 3px;
@@ -164,7 +165,7 @@ export class RemixTabs extends LitElement {
     const addTab = this.canAdd
       ? html`
       <span class="plus" @click="${this.addTab}">
-        <i class="text-dark fa fa-plus"  aria-hidden="true" ></i>
+        <i class="text-dark fas fa-plus"  aria-hidden="true" ></i>
       </span>`
       : '';
 
