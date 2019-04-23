@@ -47,6 +47,7 @@ export class RemixTab extends LitElement {
         padding: inherit;
         align-items: center;
         padding-right: 8px;
+        padding-left: 2px;
         cursor: default;
         /*to make it unselectable*/
         -webkit-touch-callout: none; /* iOS Safari */
@@ -56,7 +57,7 @@ export class RemixTab extends LitElement {
         -ms-user-select: none;       /* Internet Explorer/Edge */
         user-select: none;           /* Non-prefixed version, currently supported by any browser but < IE9 */
       }
-      .x:hover .close {
+      .tab:hover .close{
         visibility: visible
       }
       .active .close {
@@ -64,20 +65,16 @@ export class RemixTab extends LitElement {
       }
       .close {
         visibility: hidden;
-        padding-right: 4px;
-        size: 0.5em;
-        font-size: 1em;
-        margin-top: 4px;
+        padding-top: 2px;
+        font-size: medium;
     }
     </style>
 
     <div class="tab" title="${this.tab.tooltip}">
       ${icon}
       <span class="title" @click="${this.activated}">${this.tab.title}</span>
-      <span class="x">
         <span class="close" @click="${this.closed}">
-          <i class="text-dark fa fa-times"></i>
-        </span>
+          <i class="text-dark fas fa-times"></i>
       </span>
     </div>
   `;
