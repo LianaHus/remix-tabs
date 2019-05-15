@@ -23,12 +23,62 @@ export class RemixTabs extends LitElement {
 
   constructor() {
     super();
+  /* @Todo Enable and fix this after release
+  document.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaX) + Math.abs(e.deltaY) < 10)
+      return
+
+    const delta = e.deltaX > 0
+    const tabs = this.querySelectorAll("remix-tab")
+
+    // find first visible element
+    let i = 0
+    while (i < tabs.length && tabs[i].clientTop === 0) {
+      var rect = tabs[i].getBoundingClientRect();
+      var viewHeight = this.clientHeight//Math.max(this.clientHeight, window.innerHeight);
+      if (!(rect.bottom < 0 || rect.top - viewHeight >= 0)) {
+        break
+      }
+      ++i
+    }
+    let start = i
+    let end = 0
+    if (e.deltaY < 0) {
+      // check reversed i-> 0 --i
+      while (start > end && tabs[start].clientTop === 0) {
+        var rect = tabs[start].getBoundingClientRect();
+        var viewHeight = this.clientHeight//Math.max(this.clientHeight, window.innerHeight);
+        if (rect.bottom < 0 || rect.top - viewHeight >= 0) {
+          break
+        }
+        --start
+      }
+    } else {
+      start = i + 1
+      let end = tabs.length - 1
+      // check reversed i-> 0 --i
+      while (start < end && tabs[start].clientTop === 0) {
+        var rect = tabs[start].getBoundingClientRect();
+        var viewHeight = this.clientHeight//Math.max(this.clientHeight, window.innerHeight);
+        if (rect.bottom < 0 || rect.top - viewHeight >= 0) {
+          break
+        }
+        ++start
+      }
+    }
+    // check delta
+    // scroll back => find first hidden from 0-i
+    // scroll forward => find first hidden from i-tabs.length
+    this.showTab(tabs[start].id)//this.tabs[this.tabs.indexOf(this.active) - 1 || this.tabs.length]
+  })
+  */
   }
 
   // removing Shadow DOM and using Light DOM instead
   createRenderRoot() {
     return this;
   }
+
 
   private generateId(): string {
     let i = 1;
@@ -57,8 +107,11 @@ export class RemixTabs extends LitElement {
       tab = this.defaultTab();
     }
     this.tabs = [...this.tabs, tab];
+
     this.dispatchEvent(new CustomEvent('tabAdded', { detail: JSON.stringify(tab) }))
     this.updateActives(tab.id);
+
+    this.showTab(tab.id)
     return tab.id;
   }
 
@@ -100,9 +153,9 @@ export class RemixTabs extends LitElement {
     }
   }
 
-  public sendActivateEvent(event: CustomEvent) {
-    this.updateActives(event.detail);
-    this.dispatchEvent(new CustomEvent('tabActivated', {detail: event.detail}))
+  public sendActivateEvent(id: string) {
+    this.updateActives(id);
+    this.dispatchEvent(new CustomEvent('tabActivated', {detail: id}))
   }
 
   /** Activate a specific tab from the list */
@@ -110,20 +163,41 @@ export class RemixTabs extends LitElement {
     this.updateActives(id);
   }
 
-  //todo remove fix size
+  private collaps() {
+    let dl = document.getElementById("dropdownMenu")
+    dl.style.visibility = dl.style.visibility == "visible" ? "hidden" : "visible"
+  }
+
+  private showTab(id: string) {
+    const tabElement = this.querySelector("remix-tab[id='" + id + "']")
+    if (tabElement)
+      tabElement.scrollIntoView()
+  }
+
   render(): TemplateResult {
     const style = html`
       <style>
         remix-tabs {
           height: 100%;
+          position: relative;
+          display: flex;
+          width: 100%;
+          overflow: hidden;
+          line-height: 1em;
         }
         .header {
           flex-direction: row;
           display: flex;
           align-items: center;
-          height: 100%;
+          height: 1.6em;
+          width: 99%;
           border-top-left-radius: 3px;
           border-top-right-radius: 3px;
+          position: relative;
+          list-style: none;
+          margin-top: 2px;
+          box-sizing: content-box;
+          overflow: hidden;
         }
         .plus {
           display: inherit;
@@ -133,48 +207,92 @@ export class RemixTabs extends LitElement {
         }
         remix-tab {
           margin-right: 1px;
-          margin-top: 0px;
-          height: 100%;
+          margin-top: 4px;
         }
         .tab {
-          display: flex;
           flex-direction: row;
-          align-items: center;
           padding-right: 4px;
         }
+        .tabList{
+          height: fit-content;
+          visibility: hidden;
+          position: fixed;
+          right: 1px;
+          top: 1.7em;
+          max-height: 90%;
+          overflow-y: auto;
+        }
+        .dropdown{
+          right: 0px;
+          position: absolute;
+          height: 100%;
+        }
+        .
       </style>
     `;
   
+
+
     const remixTabs = this.tabs.map(tab => {
-      let cl = tab.id === this.active ?
+      let classes = tab.id === this.active ?
         'active border-bottom-0 border-dark' :
         'border-0'
       return html`
         <remix-tab
-          id = ${tab.id}
-          class="nav-item p-1 nav-link ${cl}"
+          id=${tab.id}
+          class="nav-item p-1 nav-link ${classes}"
           tab='${JSON.stringify(tab)}'
           @closed=${this.closeTab}
-          @activeChanged=${this.sendActivateEvent}
+          @activeChanged="${(e)=>{this.sendActivateEvent(e.detail)}}"
           ${this.active == tab.id ? " active='true'" : "active='false'"}
          }
         >
         </remix-tab>
       `;
     });
+
+    const tabNames = this.tabs.map(tab => {
+      return html`
+        <span
+          class="list-group-item py-1 list-group-item-action btn"
+          @click="${()=>{
+            this.sendActivateEvent(tab.id)
+            this.showTab(tab.id)
+          }}"
+        >
+          ${tab.title}
+        </span>`
+    })
+
+    const dropdownList = html`
+      <div class="dropdown p-1 btn-light"
+      ">
+        <span class="dropdownCaret"  @click="${this.collaps}" >
+          <i class="text-dark fas fa-caret-down" aria-hidden="true"></i>
+        </span>
+        <ul
+          id="dropdownMenu"
+          class="bg-light text-dark list-group tabList">
+          ${tabNames}
+        </ul>
+      </div>
+    `
+
     const addTab = this.canAdd
       ? html`
       <span class="plus" @click="${this.addTab}">
-        <i class="text-dark fas fa-plus"  aria-hidden="true" ></i>
+        <i class="text-dark fas fa-plus" aria-hidden="true"></i>
       </span>`
       : '';
 
     return html`
-      <header class="header nav nav-tabs role="tablist" >
+      <header class="header nav nav-tabs role="tablist">
         ${style}
         ${remixTabs}
         ${addTab}
+
       </header>
+      ${dropdownList}
     `;
   }
 }
