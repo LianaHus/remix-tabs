@@ -219,6 +219,8 @@ export class RemixTabs extends LitElement {
           position: fixed;
           right: 1px;
           top: 1.7em;
+          max-height: 90%;
+          overflow-y: auto;
         }
         .dropdown{
           right: 0px;
