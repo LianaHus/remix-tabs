@@ -50,6 +50,7 @@ export class RemixTab extends LitElement {
         padding-left: 2px;
         cursor: default;
         user-select: none;
+        vertical-align: middle;
       }
       .tab:hover .close{
         visibility: visible

@@ -183,12 +183,10 @@ export class RemixTabs extends LitElement {
           display: flex;
           width: 100%;
           overflow: hidden;
-          line-height: 1em;
         }
         .header {
           flex-direction: row;
           display: flex;
-          align-items: center;
           height: 1.6em;
           width: 99%;
           border-top-left-radius: 3px;
@@ -218,7 +216,7 @@ export class RemixTabs extends LitElement {
           visibility: hidden;
           position: fixed;
           right: 1px;
-          top: 1.7em;
+          top: 2.3em;
           max-height: 90%;
           overflow-y: auto;
         }
@@ -226,6 +224,7 @@ export class RemixTabs extends LitElement {
           right: 0px;
           position: absolute;
           height: 100%;
+          z-index: 100;
         }
         .
       </style>
