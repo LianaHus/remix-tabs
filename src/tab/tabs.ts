@@ -161,6 +161,7 @@ export class RemixTabs extends LitElement {
   /** Activate a specific tab from the list */
   public activateTab(id: string) {
     this.updateActives(id);
+    this.showTab(id);
   }
 
   private collaps() {
@@ -187,13 +188,11 @@ export class RemixTabs extends LitElement {
         .header {
           flex-direction: row;
           display: flex;
-          height: 1.6em;
           width: 99%;
           border-top-left-radius: 3px;
           border-top-right-radius: 3px;
           position: relative;
           list-style: none;
-          margin-top: 2px;
           box-sizing: content-box;
           overflow: hidden;
         }
@@ -230,8 +229,6 @@ export class RemixTabs extends LitElement {
       </style>
     `;
   
-
-
     const remixTabs = this.tabs.map(tab => {
       let classes = tab.id === this.active ?
         'active border-bottom-0 border-dark' :
