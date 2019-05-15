@@ -69,7 +69,7 @@ export class RemixTabs extends LitElement {
     // check delta
     // scroll back => find first hidden from 0-i
     // scroll forward => find first hidden from i-tabs.length
-    this.showTab(tabs[start].id)//this.tabs[this.tabs.indexOf(this.active) - 1 || this.tabs.length]
+    this.ensureVisible(tabs[start].id)//this.tabs[this.tabs.indexOf(this.active) - 1 || this.tabs.length]
   })
   */
   }
@@ -78,7 +78,6 @@ export class RemixTabs extends LitElement {
   createRenderRoot() {
     return this;
   }
-
 
   private generateId(): string {
     let i = 1;
@@ -109,9 +108,8 @@ export class RemixTabs extends LitElement {
     this.tabs = [...this.tabs, tab];
 
     this.dispatchEvent(new CustomEvent('tabAdded', { detail: JSON.stringify(tab) }))
-    this.updateActives(tab.id);
-
-    this.showTab(tab.id)
+    this.updateActiveAll(tab.id);
+    this.ensureVisible(tab.id)
     return tab.id;
   }
 
@@ -128,9 +126,9 @@ export class RemixTabs extends LitElement {
     }
     //set new active if needed
     if (this.active == id && this.tabs.length > 0) {
-      this.updateActives(this.tabs[this.tabs.length-1].id);
+      this.updateActiveAll(this.tabs[this.tabs.length-1].id);
     }
-    this.updateActives(this.active)
+    this.updateActiveAll(this.active)
   }
 
   /** Remove a specific tab from the list */
@@ -139,7 +137,7 @@ export class RemixTabs extends LitElement {
     this.dispatchEvent(new CustomEvent('tabClosed', { detail: event.detail }))
   }
 
-  public updateActives(active: string) {
+  public updateActiveAll(active: string) {
     this.performUpdate();
     this.active = active;
     var elements = this.getElementsByTagName("remix-tab");
@@ -154,14 +152,14 @@ export class RemixTabs extends LitElement {
   }
 
   public sendActivateEvent(id: string) {
-    this.updateActives(id);
+    this.updateActiveAll(id);
     this.dispatchEvent(new CustomEvent('tabActivated', {detail: id}))
   }
 
   /** Activate a specific tab from the list */
   public activateTab(id: string) {
-    this.updateActives(id);
-    this.showTab(id);
+    this.updateActiveAll(id);
+    this.ensureVisible(id);
   }
 
   private collaps() {
@@ -169,10 +167,11 @@ export class RemixTabs extends LitElement {
     dl.style.visibility = dl.style.visibility == "visible" ? "hidden" : "visible"
   }
 
-  private showTab(id: string) {
+  private ensureVisible(id: string) {
     const tabElement = this.querySelector("remix-tab[id='" + id + "']")
-    if (tabElement)
+    if (tabElement) {
       tabElement.scrollIntoView()
+    }
   }
 
   render(): TemplateResult {
@@ -252,8 +251,8 @@ export class RemixTabs extends LitElement {
         <span
           class="list-group-item py-1 list-group-item-action btn"
           @click="${()=>{
+            this.ensureVisible(tab.id)
             this.sendActivateEvent(tab.id)
-            this.showTab(tab.id)
           }}"
         >
           ${tab.title}
