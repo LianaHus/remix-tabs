@@ -187,7 +187,7 @@ export class RemixTabs extends LitElement {
 
     if (dl.style.visibility === 'visible') {
       window.addEventListener('click', (e) => {
-        if (!(e.target as HTMLElement).parentElement.id || (e.target as HTMLElement).parentElement.id != "dropdownMenu") {
+        if (!(e.target as HTMLElement).parentElement || (e.target as HTMLElement).parentElement.id != "dropdownMenu") {
           dl.style.visibility = "hidden" // click is outside of dropdown list
         }
       })
