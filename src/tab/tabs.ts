@@ -149,6 +149,8 @@ export class RemixTabs extends LitElement {
       tabElement.active = tabElement.id == active;
       tabElement.performUpdatePublic();
     }
+    this.highlightListItem(active);
+
   }
 
   public sendActivateEvent(id: string) {
@@ -162,9 +164,36 @@ export class RemixTabs extends LitElement {
     this.ensureVisible(id);
   }
 
-  private collaps() {
+  private highlightListItem(id: string) {
+    // remove active
+    let listItems = document.querySelectorAll(".listItems")
+    if (listItems) {
+      listItems.forEach(function (item) {
+        item.classList.remove(`active`)
+      })
+    }
+
+    // add active
+    const newActive = document.getElementById(`${id}Item`)
+    if (newActive) {
+      newActive.classList.add(`active`)
+    }
+  }
+
+  private toggleDropDownList(event: CustomEvent) {
+    event.stopPropagation()
     let dl = document.getElementById("dropdownMenu")
     dl.style.visibility = dl.style.visibility == "visible" ? "hidden" : "visible"
+
+    if (dl.style.visibility === 'visible') {
+      window.addEventListener('click', (e) => {
+        if (!(e.target as HTMLElement).parentElement.id || (e.target as HTMLElement).parentElement.id != "dropdownMenu") {
+          dl.style.visibility = "hidden" // click is outside of dropdown list
+        }
+      })
+    } else {
+      //window.removeEventListener('click');
+    }
   }
 
   private ensureVisible(id: string) {
@@ -209,7 +238,7 @@ export class RemixTabs extends LitElement {
           flex-direction: row;
           padding-right: 4px;
         }
-        .tabList{
+        .tabList {
           height: fit-content;
           visibility: hidden;
           position: fixed;
@@ -218,13 +247,14 @@ export class RemixTabs extends LitElement {
           max-height: 90%;
           overflow-y: auto;
         }
-        .dropdown{
+        .dropdown {
           right: 0px;
           position: absolute;
           height: 100%;
           z-index: 100;
         }
-        .
+        .listItems {
+        }
       </style>
     `;
   
@@ -249,7 +279,8 @@ export class RemixTabs extends LitElement {
     const tabNames = this.tabs.map(tab => {
       return html`
         <span
-          class="list-group-item py-1 list-group-item-action btn"
+          id="${tab.id}Item"
+          class="listItems list-group-item py-1 list-group-item-action btn"
           @click="${()=>{
             this.ensureVisible(tab.id)
             this.sendActivateEvent(tab.id)
@@ -262,7 +293,7 @@ export class RemixTabs extends LitElement {
     const dropdownList = html`
       <div class="dropdown p-1 btn-light"
       ">
-        <span class="dropdownCaret"  @click="${this.collaps}" >
+        <span class="dropdownCaret"  @click="${this.toggleDropDownList}" >
           <i class="text-dark fas fa-caret-down" aria-hidden="true"></i>
         </span>
         <ul
