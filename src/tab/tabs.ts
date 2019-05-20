@@ -294,9 +294,8 @@ export class RemixTabs extends LitElement {
     })
 
     const dropdownList = html`
-      <div class="dropdown p-1 btn-light"
-      ">
-        <span class="dropdownCaret"  @click="${this.toggleDropDownList}" >
+      <div class="dropdown p-1 btn-light" @click="${this.toggleDropDownList}">
+        <span class="dropdownCaret">
           <i class="text-dark fas fa-caret-down" aria-hidden="true"></i>
         </span>
         <ul
