@@ -39,7 +39,7 @@ export class RemixTab extends LitElement {
   }
 
   render(): TemplateResult {
-    const icon =  this.tab.icon ? html`<img src='${this.tab.icon}' />` : "";
+    const icon =  this.tab.icon ? html`<img class="image py-1" src='${this.tab.icon}' />` : "";
     return html`
     <style>
       .title {
@@ -49,7 +49,14 @@ export class RemixTab extends LitElement {
         padding-right: 8px;
         padding-left: 2px;
         cursor: default;
-        user-select: none;
+        /*to make it unselectable*/
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none;   /* Chrome/Safari/Opera */
+        -khtml-user-select: none;    /* Konqueror */
+        -moz-user-select: none;      /* Firefox */
+        -ms-user-select: none;       /* Internet Explorer/Edge */
+        user-select: none;           /* Non-prefixed version, currently supported by any browser but < IE9 */
+        vertical-align: middle;
       }
       .tab:hover .close{
         visibility: visible
@@ -59,9 +66,13 @@ export class RemixTab extends LitElement {
       }
       .close {
         visibility: hidden;
-        padding-top: 2px;
+        padding-top: 4px;
         font-size: medium;
-    }
+      }
+      .image {
+        width: 24px;
+        height: 24px;
+      }
     </style>
 
     <div title="${this.tab.tooltip}">
