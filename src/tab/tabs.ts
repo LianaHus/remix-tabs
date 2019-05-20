@@ -180,19 +180,22 @@ export class RemixTabs extends LitElement {
     }
   }
 
+  private hideDropdown(e) {
+    let dl = document.getElementById("dropdownMenu")
+    if (!(e.target as HTMLElement).parentElement || (e.target as HTMLElement).parentElement.id != "dropdownMenu") {
+      dl.style.visibility = "hidden" // click is outside of dropdown list
+    }
+  }
+
   private toggleDropDownList(event: CustomEvent) {
     event.stopPropagation()
     let dl = document.getElementById("dropdownMenu")
     dl.style.visibility = dl.style.visibility == "visible" ? "hidden" : "visible"
 
     if (dl.style.visibility === 'visible') {
-      window.addEventListener('click', (e) => {
-        if (!(e.target as HTMLElement).parentElement || (e.target as HTMLElement).parentElement.id != "dropdownMenu") {
-          dl.style.visibility = "hidden" // click is outside of dropdown list
-        }
-      })
+      window.addEventListener('click', this.hideDropdown)
     } else {
-      //window.removeEventListener('click');
+      window.removeEventListener('click', this.hideDropdown);
     }
   }
 

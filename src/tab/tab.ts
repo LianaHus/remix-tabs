@@ -39,7 +39,7 @@ export class RemixTab extends LitElement {
   }
 
   render(): TemplateResult {
-    const icon =  this.tab.icon ? html`<img src='${this.tab.icon}' />` : "";
+    const icon =  this.tab.icon ? html`<img class="image py-1" src='${this.tab.icon}' />` : "";
     return html`
     <style>
       .title {
@@ -66,9 +66,13 @@ export class RemixTab extends LitElement {
       }
       .close {
         visibility: hidden;
-        padding-top: 2px;
+        padding-top: 4px;
         font-size: medium;
-    }
+      }
+      .image {
+        width: 24px;
+        height: 24px;
+      }
     </style>
 
     <div class="tab" title="${this.tab.tooltip}">
