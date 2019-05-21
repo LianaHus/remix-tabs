@@ -71,7 +71,6 @@ export class RemixTab extends LitElement {
       }
       .image {
         width: 16px;
-        height: 16px;
       }
     </style>
 

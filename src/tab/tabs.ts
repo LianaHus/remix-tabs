@@ -212,7 +212,7 @@ export class RemixTabs extends LitElement {
         .header {
           flex-direction: row;
           display: flex;
-          width: 99%;
+          width: calc(100% - 65px);
           border-top-left-radius: 3px;
           border-top-right-radius: 3px;
           position: relative;
@@ -237,17 +237,18 @@ export class RemixTabs extends LitElement {
         .tabList {
           height: fit-content;
           position: fixed;
-          right: 1px;
-          top: 2.7em;
+          right: 8px;
+          top: 2.1em;
           max-height: 90%;
           overflow-y: auto;
           z-index: 100;
           overflow-x: hidden;
         }
         .dropdown {
+          padding-top: 3px;
+          padding-bottom: 3px;
           right: 0px;
-          position: absolute;
-          height: 99%;
+          position: fixed;
           z-index: 100;
         }
         .listItems {
@@ -296,8 +297,9 @@ export class RemixTabs extends LitElement {
     ` : html``
 
     const dropdownList = html`
-      <div class="dropdown p-1 btn-light" @click="${(e) => this.toggleDropDownList(e)}">
-        <span class="dropdownCaret">
+      <div class="dropdown px-1" @click="${(e) => this.toggleDropDownList(e)}">
+        <span class="dropdownCaret p-1 m-1  badge badge-secondary">
+          ${this.tabs.length} tabs
           <i class="text-dark fas fa-caret-down" aria-hidden="true"></i>
         </span>
       </div>
