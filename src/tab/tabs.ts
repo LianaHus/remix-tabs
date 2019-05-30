@@ -283,7 +283,7 @@ export class RemixTabs extends LitElement {
       return html`
         <span
           id="${tab.id}Item"
-          class="listItems list-group-item py-1 list-group-item-action btn"
+          class="listItems list-group-item py-1 list-group-item-action"
           @click="${()=>{
             this.ensureVisible(tab.id)
             this.sendActivateEvent(tab.id)
