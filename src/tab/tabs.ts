@@ -231,6 +231,7 @@ export class RemixTabs extends LitElement {
           margin-top: 4px;
         }
         .tab {
+          display: flex;
           flex-direction: row;
           padding-right: 4px;
         }
