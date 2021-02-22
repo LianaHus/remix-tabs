@@ -3,4 +3,5 @@ export interface Tab {
   title: string;
   icon: string;
   tooltip: string;
+  iconClass: string;
 }

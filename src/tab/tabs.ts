@@ -98,7 +98,8 @@ export class RemixTabs extends LitElement {
       id: newId,
       title: newId,
       icon: this.defaultIcon,
-      tooltip: this.defaultTitle
+      tooltip: this.defaultTitle,
+      iconClass: ''
     }
   }
 
@@ -268,7 +269,7 @@ export class RemixTabs extends LitElement {
           tab='${JSON.stringify(tab)}'
           @closed=${this.closeTab}
           @activeChanged="${(e)=>{this.sendActivateEvent(e.detail)}}"
-          ${this.active == tab.id ? " active='true'" : "active='false'"}
+          ?active=${this.active == tab.id}
          }
         >
         </remix-tab>
