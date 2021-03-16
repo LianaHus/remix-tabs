@@ -315,7 +315,7 @@ export class RemixTabs extends LitElement {
       : '';
 
     return html`
-      <header class="header nav nav-tabs role="tablist">
+      <header class="header nav nav-tabs align-content-center">
         ${style}
         ${remixTabs}
         ${addTab}
