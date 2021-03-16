@@ -40,8 +40,8 @@ export class RemixTab extends LitElement {
 
   render(): TemplateResult {
     const icon =  this.tab.icon ?
-      html`<img class="iconImage" src='${this.tab.icon}' />` :
-      html`<i class="mt-1 text-dark ${this.tab.iconClass}"></i>`;
+      html`<img class="mr-1 iconImage" src='${this.tab.icon}' />` :
+      html`<i class="mt-1 mr-1 text-dark ${this.tab.iconClass}"></i>`;
     return html`
     <style>
       .title {
